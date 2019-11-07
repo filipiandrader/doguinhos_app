@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Doguinhos</string>
+    <string name="main_empty_message">Sem doguinhos cadastrados :(</string>
 </resources>

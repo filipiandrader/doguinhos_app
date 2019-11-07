@@ -1,14 +1,17 @@
 package com.doguinhos_app.service
 
+import com.doguinhos_app.entity.Doguinho
 import com.doguinhos_app.util.nullOnEmptyConverterFactory
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
 
 /**
  * Created by Filipi Andrade Rocha on 06/11/2019
  */
-class DogAPI {
+open class DogAPI {
 
     private val retrofit: Retrofit = Retrofit.Builder()
         .baseUrl("https://dog.ceo/api/")
@@ -22,6 +25,8 @@ class DogAPI {
 
 interface DogEndpoints {
 
-
+    // DOGS
+    @GET("breeds/list/all")
+    fun getAllDogs() : Deferred<HashMap<String, Any>>
 
 }
