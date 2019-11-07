@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Doguinhos</string>
     <string name="main_empty_message">Sem doguinhos cadastrados :(</string>
+    <string name="details_empty_message">Sem imagem cadastrada para esse doguinho! :(</string>
 </resources>

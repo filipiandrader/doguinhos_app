@@ -3,12 +3,14 @@ package com.doguinhos_app.main.principal.ui
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.recyclical.datasource.dataSourceOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.doguinhos_app.R
 import com.doguinhos_app.entity.Doguinho
-import com.doguinhos_app.main.details.DetailsActivity
+import com.doguinhos_app.entity.DoguinhoSingleton
+import com.doguinhos_app.main.details.ui.DetailsActivity
 import com.doguinhos_app.main.principal.domain.MainInteractorImpl
 import com.doguinhos_app.main.principal.presentation.MainPresenter
 import com.doguinhos_app.main.principal.presentation.MainPresenterImpl
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity(), MainView {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(mainToolbar)
 
         mPresenter = MainPresenterImpl(MainInteractorImpl())
         mPresenter.attach(this)
@@ -40,10 +43,19 @@ class MainActivity : AppCompatActivity(), MainView {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        showProgress()
+        hideEmptyMessage()
+        mPresenter.getDoguinhos()
+    }
+
     override fun bindDoguinhos(doguinhos: MutableList<Doguinho>) {
         if (doguinhos.isEmpty()) {
             showEmptyMessage()
         } else {
+            mainRecyclerView.layoutManager = GridLayoutManager(this, 2)
             mainRecyclerView.setup {
                 withDataSource(dataSourceOf(doguinhos))
                 withItem<Doguinho, MainViewHolder>(R.layout.item_doguinhos) {
@@ -62,7 +74,9 @@ class MainActivity : AppCompatActivity(), MainView {
                             this.doguinhosSubRacaTextView.text = "Sub-raças: não tem"
                         }
                     }
-                    onClick { startActivity<DetailsActivity>() }
+                    onClick {
+                        DoguinhoSingleton.instance.nome = item.nome
+                        startActivity<DetailsActivity>() }
                 }
             }
 
