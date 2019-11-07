@@ -1,4 +1,4 @@
-package com.doguinhos_app.main.presentation
+package com.doguinhos_app.main.principal.presentation
 
 import com.doguinhos_app.core.BasePresenter
 

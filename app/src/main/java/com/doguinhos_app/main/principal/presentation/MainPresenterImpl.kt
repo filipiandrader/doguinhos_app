@@ -1,8 +1,8 @@
-package com.doguinhos_app.main.presentation
+package com.doguinhos_app.main.principal.presentation
 
 import com.doguinhos_app.entity.Doguinho
-import com.doguinhos_app.main.domain.GetDoguinhosListener
-import com.doguinhos_app.main.domain.MainInteractor
+import com.doguinhos_app.main.principal.domain.GetDoguinhosListener
+import com.doguinhos_app.main.principal.domain.MainInteractor
 
 /**
  * Created by Filipi Andrade Rocha on 06/11/2019

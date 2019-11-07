@@ -1,4 +1,4 @@
-package com.doguinhos_app.main.domain
+package com.doguinhos_app.main.principal.domain
 
 import com.doguinhos_app.entity.Doguinho
 import com.doguinhos_app.service.DogAPI

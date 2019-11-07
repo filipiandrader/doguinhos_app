@@ -1,4 +1,4 @@
-package com.doguinhos_app.main.ui
+package com.doguinhos_app.main.principal.ui
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
@@ -8,14 +8,16 @@ import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.doguinhos_app.R
 import com.doguinhos_app.entity.Doguinho
-import com.doguinhos_app.main.domain.MainInteractorImpl
-import com.doguinhos_app.main.presentation.MainPresenter
-import com.doguinhos_app.main.presentation.MainPresenterImpl
-import com.doguinhos_app.main.presentation.MainView
+import com.doguinhos_app.main.details.DetailsActivity
+import com.doguinhos_app.main.principal.domain.MainInteractorImpl
+import com.doguinhos_app.main.principal.presentation.MainPresenter
+import com.doguinhos_app.main.principal.presentation.MainPresenterImpl
+import com.doguinhos_app.main.principal.presentation.MainView
 import com.doguinhos_app.util.capitalize
 import com.doguinhos_app.util.setRefresh
 import com.doguinhos_app.util.setVisible
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity(), MainView {
 
@@ -60,7 +62,7 @@ class MainActivity : AppCompatActivity(), MainView {
                             this.doguinhosSubRacaTextView.text = "Sub-raças: não tem"
                         }
                     }
-                    onClick { showMessage("clicked on ${item.nome}") }
+                    onClick { startActivity<DetailsActivity>() }
                 }
             }
 

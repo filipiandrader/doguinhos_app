@@ -3,7 +3,7 @@ package com.doguinhos_app.splash
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.doguinhos_app.R
-import com.doguinhos_app.main.ui.MainActivity
+import com.doguinhos_app.main.principal.ui.MainActivity
 import org.jetbrains.anko.startActivity
 
 class SplashScreenActivity : AppCompatActivity() {

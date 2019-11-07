@@ -1,4 +1,4 @@
-package com.doguinhos_app.main.ui
+package com.doguinhos_app.main.principal.ui
 
 import android.view.View
 import android.widget.TextView

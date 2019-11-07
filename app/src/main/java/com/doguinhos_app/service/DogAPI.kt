@@ -7,6 +7,7 @@ import kotlinx.coroutines.Deferred
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 /**
  * Created by Filipi Andrade Rocha on 06/11/2019
@@ -27,6 +28,10 @@ interface DogEndpoints {
 
     // DOGS
     @GET("breeds/list/all")
-    fun getAllDogs() : Deferred<HashMap<String, Any>>
+    fun getAllDogs(): Deferred<HashMap<String, Any>>
+
+    @GET("breed/{doguinho}/images")
+    fun getImagesByDog(@Path("doguinho") doguinho: String): Deferred<HashMap<String, Any>>
+
 
 }

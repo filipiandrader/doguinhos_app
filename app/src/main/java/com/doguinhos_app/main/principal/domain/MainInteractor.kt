@@ -1,4 +1,4 @@
-package com.doguinhos_app.main.domain
+package com.doguinhos_app.main.principal.domain
 
 import com.doguinhos_app.core.BaseInteractorListener
 import com.doguinhos_app.entity.Doguinho
