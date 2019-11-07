@@ -1,7 +1,8 @@
-package com.doguinhos_app
+package com.doguinhos_app.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.doguinhos_app.R
 
 class MainActivity : AppCompatActivity() {
 
