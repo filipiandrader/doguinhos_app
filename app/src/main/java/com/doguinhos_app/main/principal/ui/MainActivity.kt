@@ -18,6 +18,7 @@ import com.doguinhos_app.main.principal.presentation.MainView
 import com.doguinhos_app.util.capitalize
 import com.doguinhos_app.util.setRefresh
 import com.doguinhos_app.util.setVisible
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
 
@@ -61,17 +62,18 @@ class MainActivity : AppCompatActivity(), MainView {
                 withItem<Doguinho, MainViewHolder>(R.layout.item_doguinhos) {
                     onBind(::MainViewHolder) { _, item ->
                         this.doguinhosNomeTextView.text = capitalize(item.nome)
+                        Picasso.get().load(item.imagem).into(this.doguinhosImageView)
 
-                        if (item.sub_raca.size == 1) {
-                            this.doguinhosSubRacaTextView.text = "Sub-raça: ${capitalize(item.sub_raca[0])}"
-                        } else if (item.sub_raca.size > 1) {
-                            var sub_raca = capitalize(item.sub_raca[0])
-                            for (i in 1 until item.sub_raca.size) {
-                                sub_raca = sub_raca.plus(", ${capitalize(item.sub_raca[i])}")
+                        when {
+                            item.sub_raca.size == 1 -> this.doguinhosSubRacaTextView.text = "Sub-raça: ${capitalize(item.sub_raca[0])}"
+                            item.sub_raca.size > 1 -> {
+                                var sub_raca = capitalize(item.sub_raca[0])
+                                for (i in 1 until item.sub_raca.size) {
+                                    sub_raca = sub_raca.plus(", ${capitalize(item.sub_raca[i])}")
+                                }
+                                this.doguinhosSubRacaTextView.text = "Sub-raças: $sub_raca"
                             }
-                            this.doguinhosSubRacaTextView.text = "Sub-raças: $sub_raca"
-                        } else {
-                            this.doguinhosSubRacaTextView.text = "Sub-raças: não tem"
+                            else -> this.doguinhosSubRacaTextView.text = "Sub-raças: não tem"
                         }
                     }
                     onClick {

@@ -1,6 +1,5 @@
 package com.doguinhos_app.service
 
-import com.doguinhos_app.entity.Doguinho
 import com.doguinhos_app.util.nullOnEmptyConverterFactory
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import kotlinx.coroutines.Deferred
@@ -33,5 +32,6 @@ interface DogEndpoints {
     @GET("breed/{doguinho}/images")
     fun getImagesByDog(@Path("doguinho") doguinho: String): Deferred<HashMap<String, Any>>
 
-
+    @GET("breed/{doguinho}/images/random")
+    fun getImagesRandomByDog(@Path("doguinho") doguinho: String): Deferred<HashMap<String, Any>>
 }
