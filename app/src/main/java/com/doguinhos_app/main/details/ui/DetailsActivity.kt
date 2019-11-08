@@ -1,11 +1,14 @@
 package com.doguinhos_app.main.details.ui
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.media.Image
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.widget.DrawableUtils
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.recyclical.datasource.dataSourceOf
 import com.afollestad.recyclical.setup
@@ -19,13 +22,12 @@ import com.doguinhos_app.main.details.presentation.DetailsPresenterImpl
 import com.doguinhos_app.main.details.presentation.DetailsView
 import com.doguinhos_app.util.capitalize
 import com.doguinhos_app.util.setVisible
-import com.google.gson.Gson
 import com.squareup.picasso.Picasso
+import com.stfalcon.imageviewer.StfalconImageViewer
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class DetailsActivity : AppCompatActivity(), DetailsView {
 
@@ -94,7 +96,12 @@ class DetailsActivity : AppCompatActivity(), DetailsView {
                 withDataSource(dataSourceOf(doguinhosImagens))
                 withItem<String, DetailsViewHolder>(R.layout.item_doguinhos_imagens) {
                     onBind(::DetailsViewHolder) { index, _ ->
-                        Picasso.get().load(doguinhosImagens[index]).into(this.doguinhosImageView)
+                        Picasso.get().load(doguinhosImagens[index]).noFade().into(this.doguinhosImageView)
+                    }
+                    onClick { index ->
+                        StfalconImageViewer.Builder<String>(mContext, doguinhosImagens) { view, image ->
+                            Picasso.get().load(image).noFade().into(view)
+                        }.withStartPosition(index).show()
                     }
                 }
             }
