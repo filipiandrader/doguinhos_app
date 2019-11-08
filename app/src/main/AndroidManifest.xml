@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".main.details.ui.DetailsActivity"></activity>
+        <activity android:name=".favorite.ui.FavoritesActivity"></activity>
         <activity
             android:name=".splash.SplashScreenActivity"
             android:screenOrientation="portrait">
@@ -27,6 +27,9 @@
         </activity>
         <activity
             android:name=".main.principal.ui.MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".main.details.ui.DetailsActivity"
             android:screenOrientation="portrait" />
     </application>
 

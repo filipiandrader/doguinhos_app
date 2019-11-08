@@ -13,6 +13,7 @@ class MainPresenterImpl(private val interactor: MainInteractor) : MainPresenter 
 
     override fun attach(view: MainView) {
         mView = view
+        mView?.showProgress()
         getDoguinhos()
     }
 

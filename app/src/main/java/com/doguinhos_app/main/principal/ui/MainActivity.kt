@@ -1,8 +1,8 @@
 package com.doguinhos_app.main.principal.ui
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.recyclical.datasource.dataSourceOf
 import com.afollestad.recyclical.setup
@@ -10,6 +10,7 @@ import com.afollestad.recyclical.withItem
 import com.doguinhos_app.R
 import com.doguinhos_app.entity.Doguinho
 import com.doguinhos_app.entity.DoguinhoSingleton
+import com.doguinhos_app.favorite.ui.FavoritesActivity
 import com.doguinhos_app.main.details.ui.DetailsActivity
 import com.doguinhos_app.main.principal.domain.MainInteractorImpl
 import com.doguinhos_app.main.principal.presentation.MainPresenter
@@ -18,6 +19,11 @@ import com.doguinhos_app.main.principal.presentation.MainView
 import com.doguinhos_app.util.capitalize
 import com.doguinhos_app.util.setRefresh
 import com.doguinhos_app.util.setVisible
+import com.mikepenz.materialdrawer.AccountHeaderBuilder
+import com.mikepenz.materialdrawer.Drawer
+import com.mikepenz.materialdrawer.DrawerBuilder
+import com.mikepenz.materialdrawer.model.DividerDrawerItem
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
@@ -28,6 +34,8 @@ class MainActivity : AppCompatActivity(), MainView {
         get() = this
 
     private lateinit var mPresenter: MainPresenter
+
+    private lateinit var mDrawer: Drawer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,14 +50,41 @@ class MainActivity : AppCompatActivity(), MainView {
             hideEmptyMessage()
             mPresenter.getDoguinhos()
         }
-    }
 
-    override fun onResume() {
-        super.onResume()
+        val accountHeader = AccountHeaderBuilder()
+            .withActivity(this)
+            .withHeaderBackground(resources.getDrawable(R.drawable.bg_dog))
+            .build()
 
-        showProgress()
-        hideEmptyMessage()
-        mPresenter.getDoguinhos()
+        mDrawer = DrawerBuilder()
+            .withActivity(this)
+            .withToolbar(mainToolbar)
+            .withAccountHeader(accountHeader)
+            .addDrawerItems(
+                PrimaryDrawerItem().withIdentifier(1).withName("Início").withIcon(
+                    resources.getDrawable(
+                        R.drawable.ic_drawer_home
+                    )
+                ),
+                PrimaryDrawerItem().withIdentifier(2).withName("Raças Favoritas").withIcon(
+                    resources.getDrawable(
+                        R.drawable.ic_drawer_favorite
+                    )
+                ),
+                DividerDrawerItem()
+            )
+            .withOnDrawerItemClickListener { view, position, drawerItem ->
+                when (position) {
+                    1 -> mDrawer.closeDrawer()
+                    2 -> {
+                        mDrawer.closeDrawer()
+                        startActivity<FavoritesActivity>()
+                    }
+                }
+                true
+            }
+            .build()
+
     }
 
     override fun bindDoguinhos(doguinhos: MutableList<Doguinho>) {
@@ -65,7 +100,8 @@ class MainActivity : AppCompatActivity(), MainView {
                         Picasso.get().load(item.imagem).into(this.doguinhosImageView)
 
                         when {
-                            item.sub_raca.size == 1 -> this.doguinhosSubRacaTextView.text = "Sub-raça: ${capitalize(item.sub_raca[0])}"
+                            item.sub_raca.size == 1 -> this.doguinhosSubRacaTextView.text =
+                                "Sub-raça: ${capitalize(item.sub_raca[0])}"
                             item.sub_raca.size > 1 -> {
                                 var sub_raca = capitalize(item.sub_raca[0])
                                 for (i in 1 until item.sub_raca.size) {
@@ -77,8 +113,13 @@ class MainActivity : AppCompatActivity(), MainView {
                         }
                     }
                     onClick {
-                        DoguinhoSingleton.instance.nome = item.nome
-                        startActivity<DetailsActivity>() }
+                        DoguinhoSingleton.instance.run {
+                            this.nome = item.nome
+                            this.imagem = item.imagem
+                            this.sub_raca = item.sub_raca
+                        }
+                        startActivity<DetailsActivity>()
+                    }
                 }
             }
 
@@ -105,5 +146,19 @@ class MainActivity : AppCompatActivity(), MainView {
 
     override fun hideEmptyMessage() {
         mainEmptyMessageTextView.setVisible(false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        mDrawer.setSelection(1)
+    }
+
+    override fun onBackPressed() {
+        if (mDrawer.isDrawerOpen) {
+            mDrawer.closeDrawer()
+        } else {
+            finish()
+        }
     }
 }

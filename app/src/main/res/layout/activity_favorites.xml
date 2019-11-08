@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.details.ui.DetailsActivity">
+    tools:context=".favorite.ui.FavoritesActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/detailsAppBarLayout"
+        android:id="@+id/favoritesAppBarLayout"
         android:layout_width="match_parent"
         android:layout_height="?android:actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
@@ -15,15 +15,16 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/detailsToolbar"
+            android:id="@+id/favoritesToolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:navigationIcon="@drawable/ic_arrow_back"
+            app:title="@string/favorites_toolbar_title"
             app:titleTextColor="@android:color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ProgressBar
-        android:id="@+id/detailsProgressBar"
+        android:id="@+id/favoritesProgressBar"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:visibility="gone"
@@ -33,10 +34,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/detailsEmptyMessageTextView"
+        android:id="@+id/favoritesEmptyMessageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/details_empty_message"
+        android:text="@string/favorites_empty_message"
         android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -45,12 +46,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/detailsRecyclerView"
+        android:id="@+id/favoritesRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/detailsAppBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/favoritesAppBarLayout" />
 </androidx.constraintlayout.widget.ConstraintLayout>
