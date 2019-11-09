@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity(), MainView {
         setSupportActionBar(mainToolbar)
 
         mPresenter = MainPresenterImpl(MainInteractorImpl())
+        mPresenter.attach(this)
 
         val accountHeader = AccountHeaderBuilder()
                 .withActivity(this)
@@ -180,7 +181,10 @@ class MainActivity : AppCompatActivity(), MainView {
     override fun onResume() {
         super.onResume()
 
-        mPresenter.attach(this)
+        if (DetailsActivity.hasChange) {
+            mPresenter.attach(this)
+        }
+
         mDrawer.setSelection(1)
     }
 

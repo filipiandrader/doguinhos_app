@@ -10,11 +10,14 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.afollestad.recyclical.datasource.dataSourceOf
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.doguinhos_app.R
 import com.doguinhos_app.database.DogsDatabase
+import com.doguinhos_app.entity.Doguinho
 import com.doguinhos_app.entity.DoguinhoSingleton
 import com.doguinhos_app.main.details.domain.DetailsInteractorImpl
 import com.doguinhos_app.main.details.presentation.DetailsPresenter
@@ -27,7 +30,9 @@ import com.stfalcon.imageviewer.StfalconImageViewer
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.jetbrains.anko.sdk27.coroutines.onScrollChange
 
 class DetailsActivity : AppCompatActivity(), DetailsView {
 
@@ -35,6 +40,10 @@ class DetailsActivity : AppCompatActivity(), DetailsView {
         get() = this
 
     private lateinit var mPresenter: DetailsPresenter
+
+    companion object {
+        var hasChange = false
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,6 +76,7 @@ class DetailsActivity : AppCompatActivity(), DetailsView {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId) {
             R.id.action_favorite -> {
+                hasChange = true
                 if (DoguinhoSingleton.instance.favotiro) {
                     DoguinhoSingleton.instance.favotiro = false
                     item.setIcon(R.drawable.ic_not_favorite)
