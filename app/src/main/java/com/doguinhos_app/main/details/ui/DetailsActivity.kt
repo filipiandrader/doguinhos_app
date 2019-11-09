@@ -56,16 +56,10 @@ class DetailsActivity : AppCompatActivity(), DetailsView {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_details, menu)
 
-        GlobalScope.launch {
-            if (DogsDatabase.getInstance(mContext).dogsDao().getDoguinho(DoguinhoSingleton.instance.nome) != null) {
-                if (DogsDatabase.getInstance(mContext).dogsDao().getDoguinho(DoguinhoSingleton.instance.nome)!!.favotiro) {
-                    GlobalScope.launch(Dispatchers.Main) { menu!!.findItem(R.id.action_favorite).setIcon(R.drawable.ic_favorite) }
-                } else {
-                    GlobalScope.launch(Dispatchers.Main) { menu!!.findItem(R.id.action_favorite).setIcon(R.drawable.ic_not_favorite) }
-                }
-            } else {
-                GlobalScope.launch(Dispatchers.Main) { menu!!.findItem(R.id.action_favorite).setIcon(R.drawable.ic_not_favorite) }
-            }
+        if (DoguinhoSingleton.instance.favotiro) {
+            menu!!.findItem(R.id.action_favorite).setIcon(R.drawable.ic_favorite)
+        } else {
+            menu!!.findItem(R.id.action_favorite).setIcon(R.drawable.ic_not_favorite)
         }
         return true
     }
@@ -91,8 +85,8 @@ class DetailsActivity : AppCompatActivity(), DetailsView {
         if (doguinhosImagens.isEmpty()) {
             detailsEmptyMessageTextView.setVisible(true)
         } else {
-            detailsRecyclerView.layoutManager = GridLayoutManager(this, 2)
             detailsRecyclerView.setup {
+                withLayoutManager(GridLayoutManager(mContext, 2))
                 withDataSource(dataSourceOf(doguinhosImagens))
                 withItem<String, DetailsViewHolder>(R.layout.item_doguinhos_imagens) {
                     onBind(::DetailsViewHolder) { index, _ ->

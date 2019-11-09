@@ -12,6 +12,5 @@ import com.doguinhos_app.R
 class FavoritesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     val doguinhosImageView: ImageView = itemView.findViewById(R.id.doguinhosImageView)
-    val favoritarDoguinhoImageView: ImageView = itemView.findViewById(R.id.favoritarDoguinhoImageView)
     val doguinhosNomeTextView: TextView = itemView.findViewById(R.id.doguinhosNomeTextView)
 }

@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity(), MainView {
         setSupportActionBar(mainToolbar)
 
         mPresenter = MainPresenterImpl(MainInteractorImpl())
-        mPresenter.attach(this)
 
         val accountHeader = AccountHeaderBuilder()
                 .withActivity(this)
@@ -95,8 +94,8 @@ class MainActivity : AppCompatActivity(), MainView {
         if (doguinhos.isEmpty()) {
             showEmptyMessage()
         } else {
-            mainRecyclerView.layoutManager = GridLayoutManager(this, 2)
             mainRecyclerView.setup {
+                withLayoutManager(GridLayoutManager(mContext, 2))
                 withDataSource(dataSourceOf(doguinhos))
                 withItem<Doguinho, MainViewHolder>(R.layout.item_doguinhos) {
                     onBind(::MainViewHolder) { _, item ->
@@ -106,11 +105,14 @@ class MainActivity : AppCompatActivity(), MainView {
                         GlobalScope.launch {
                             if (DogsDatabase.getInstance(mContext).dogsDao().getDoguinho(item.nome) != null) {
                                 if (DogsDatabase.getInstance(mContext).dogsDao().getDoguinho(item.nome)!!.favotiro) {
+                                    item.favotiro = true
                                     GlobalScope.launch(Dispatchers.Main) { favoritarDoguinhoImageView.setImageResource(R.drawable.ic_favorite) }
                                 } else {
+                                    item.favotiro = false
                                     GlobalScope.launch(Dispatchers.Main) { favoritarDoguinhoImageView.setImageResource(R.drawable.ic_not_favorite) }
                                 }
                             } else {
+                                item.favotiro = false
                                 GlobalScope.launch(Dispatchers.Main) { favoritarDoguinhoImageView.setImageResource(R.drawable.ic_not_favorite) }
                             }
                         }
@@ -131,6 +133,7 @@ class MainActivity : AppCompatActivity(), MainView {
                         DoguinhoSingleton.instance.run {
                             this.nome = item.nome
                             this.imagem = item.imagem
+                            this.favotiro = item.favotiro
                             this.sub_raca = item.sub_raca
                         }
                         startActivity<DetailsActivity>()
@@ -177,6 +180,7 @@ class MainActivity : AppCompatActivity(), MainView {
     override fun onResume() {
         super.onResume()
 
+        mPresenter.attach(this)
         mDrawer.setSelection(1)
     }
 

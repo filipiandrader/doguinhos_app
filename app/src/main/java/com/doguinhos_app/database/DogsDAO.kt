@@ -1,9 +1,6 @@
 package com.doguinhos_app.database
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.doguinhos_app.entity.Doguinho
 
 /**
@@ -13,7 +10,7 @@ import com.doguinhos_app.entity.Doguinho
 @Dao
 abstract class DogsDAO {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(vararg doguinho: Doguinho)
 
     @Delete

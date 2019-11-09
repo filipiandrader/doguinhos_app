@@ -55,37 +55,22 @@ class FavoritesActivity : AppCompatActivity(), FavoritesView {
             favoritesEmptyMessageTextView.setVisible(true)
             favoritesRecyclerView.setVisible(false)
         } else {
-            favoritesRecyclerView.layoutManager = GridLayoutManager(mContext, 2)
             favoritesRecyclerView.setup {
+                withLayoutManager(GridLayoutManager(mContext, 2))
                 withDataSource(dataSourceOf(doguinhos))
                 withItem<Doguinho, FavoritesViewHolder>(R.layout.item_doguinhos_favoritos) {
                     onBind(::FavoritesViewHolder) { index, item ->
                         this.doguinhosNomeTextView.text = capitalize(item.nome)
                         Picasso.get().load(item.imagem).into(this.doguinhosImageView)
-
-                        GlobalScope.launch {
-                            if (DogsDatabase.getInstance(mContext).dogsDao().getDoguinho(item.nome)!!.favotiro) {
-                                GlobalScope.launch(Dispatchers.Main) { favoritarDoguinhoImageView.setImageResource(R.drawable.ic_favorite) }
-                            } else {
-                                GlobalScope.launch(Dispatchers.Main) { favoritarDoguinhoImageView.setImageResource(R.drawable.ic_not_favorite) }
-                            }
-                        }
                     }
                     onClick {
                         DoguinhoSingleton.instance.run {
                             this.nome = item.nome
                             this.imagem = item.imagem
+                            this.favotiro = item.favotiro
                             this.sub_raca = item.sub_raca
                         }
                         startActivity<DetailsActivity>()
-                    }
-                    onChildViewClick(FavoritesViewHolder::favoritarDoguinhoImageView) { index, view ->
-                        if (doguinhos[index].favotiro) {
-                            doguinhos[index].favotiro = false
-                            view.setImageResource(R.drawable.ic_not_favorite)
-                            GlobalScope.launch { DogsDatabase.getInstance(mContext).dogsDao().delete(doguinhos[index]) }
-                            doguinhos.removeAt(index)
-                        }
                     }
                 }
             }
