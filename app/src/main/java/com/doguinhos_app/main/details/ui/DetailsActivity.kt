@@ -1,10 +1,16 @@
 package com.doguinhos_app.main.details.ui
 
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.media.Image
+import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.os.StrictMode
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +32,7 @@ import com.doguinhos_app.main.details.presentation.DetailsView
 import com.doguinhos_app.util.capitalize
 import com.doguinhos_app.util.setVisible
 import com.squareup.picasso.Picasso
+import com.squareup.picasso.Target
 import com.stfalcon.imageviewer.StfalconImageViewer
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.coroutines.Dispatchers
@@ -33,6 +40,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.jetbrains.anko.sdk27.coroutines.onScrollChange
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.lang.Exception
 
 class DetailsActivity : AppCompatActivity(), DetailsView {
 
@@ -87,8 +98,40 @@ class DetailsActivity : AppCompatActivity(), DetailsView {
                     GlobalScope.launch { DogsDatabase.getInstance(mContext).dogsDao().insert(DoguinhoSingleton.instance) }
                 }
             }
+            R.id.action_share -> {
+                StrictMode.setVmPolicy(StrictMode.VmPolicy.Builder().build())
+                Picasso.get().load(DoguinhoSingleton.instance.imagem).into(object : Target {
+                    override fun onBitmapLoaded(bitmap: Bitmap?, from: Picasso.LoadedFrom?) {
+                        val shareIntent = Intent(Intent.ACTION_SEND)
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, "Uma imagem da raça ${capitalize(DoguinhoSingleton.instance.nome)} <3")
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, getLocalBitmpaUri(bitmap!!))
+                        shareIntent.type = ("image/*")
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        startActivity(Intent.createChooser(shareIntent, "Enviar esse doguinho pra quem?"))
+                    }
+
+                    override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {}
+
+                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+                })
+            }
         }
         return true
+    }
+
+    private fun getLocalBitmpaUri(bitmap: Bitmap): Uri? {
+        var bmpUri: Uri? = null
+        try {
+            val file = File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_${System.currentTimeMillis()}.png")
+            val out = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out)
+            out.close()
+            bmpUri = Uri.fromFile(file)
+        } catch (io: IOException) {
+            io.printStackTrace()
+        }
+
+        return bmpUri
     }
 
     override fun bindDoguinhosImages(doguinhosImagens: MutableList<String>) {

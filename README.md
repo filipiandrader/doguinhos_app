@@ -22,5 +22,5 @@ App para o Desafio Mobile.
 ## Features
 
 - Opção de **favoritar** uma raça e assim criar um espaço no app para as raças favoritas
-- Opção para **compartilhar** as informações da raça com uma imagem aleatória
+- Opção para **compartilhar** a raça com uma imagem
 - Opção, na tela de detalhes dos doguinhos, de ter um **preview da foto** e ao **passar para os lados** é possível ver as outras fotos
