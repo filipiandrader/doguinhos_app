@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.recyclical.datasource.dataSourceOf
 import com.afollestad.recyclical.itemdefinition.onChildViewClick
 import com.afollestad.recyclical.setup
@@ -56,12 +57,23 @@ class FavoritesActivity : AppCompatActivity(), FavoritesView {
             favoritesRecyclerView.setVisible(false)
         } else {
             favoritesRecyclerView.setup {
-                withLayoutManager(GridLayoutManager(mContext, 2))
+                withLayoutManager(LinearLayoutManager(mContext))
                 withDataSource(dataSourceOf(doguinhos))
                 withItem<Doguinho, FavoritesViewHolder>(R.layout.item_doguinhos_favoritos) {
                     onBind(::FavoritesViewHolder) { index, item ->
+                        //                        Picasso.get().load(item.imagem).into(this.doguinhosImageView)
                         this.doguinhosNomeTextView.text = capitalize(item.nome)
-                        Picasso.get().load(item.imagem).into(this.doguinhosImageView)
+                        when {
+                            item.sub_raca.size == 1 -> this.doguinhosSubRacaTextView.text = "Sub-raça: ${capitalize(item.sub_raca[0])}"
+                            item.sub_raca.size > 1 -> {
+                                var sub_raca = capitalize(item.sub_raca[0])
+                                for (i in 1 until item.sub_raca.size) {
+                                    sub_raca = sub_raca.plus(", ${capitalize(item.sub_raca[i])}")
+                                }
+                                this.doguinhosSubRacaTextView.text = "Sub-raças: $sub_raca"
+                            }
+                            else -> this.doguinhosSubRacaTextView.text = "Sub-raças: não tem"
+                        }
                     }
                     onClick {
                         DoguinhoSingleton.instance.run {

@@ -13,4 +13,5 @@ class FavoritesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     val doguinhosImageView: ImageView = itemView.findViewById(R.id.doguinhosImageView)
     val doguinhosNomeTextView: TextView = itemView.findViewById(R.id.doguinhosNomeTextView)
+    val doguinhosSubRacaTextView: TextView = itemView.findViewById(R.id.doguinhosSubRacaTextView)
 }

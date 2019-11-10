@@ -15,10 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".favorite.ui.FavoritesActivity"></activity>
         <activity
             android:name=".splash.SplashScreenActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/Doguinhos.SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,9 +28,18 @@
         <activity
             android:name=".main.principal.ui.MainActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".main.details.ui.DetailsActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".favorite.ui.FavoritesActivity"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/bree_serif</item>
         <item name="drawerArrowStyle">@style/Doguinhos.Drawer.Arrow</item>
     </style>
 
@@ -14,4 +15,11 @@
         <item name="color">@android:color/white</item>
     </style>
 
+    <style name="Doguinhos.SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
 </resources>

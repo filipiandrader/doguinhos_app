@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.afollestad.recyclical.datasource.dataSourceOf
 import com.afollestad.recyclical.itemdefinition.onChildViewClick
 import com.afollestad.recyclical.setup
@@ -96,25 +97,25 @@ class MainActivity : AppCompatActivity(), MainView {
             showEmptyMessage()
         } else {
             mainRecyclerView.setup {
-                withLayoutManager(GridLayoutManager(mContext, 2))
+                withLayoutManager(LinearLayoutManager(mContext))
                 withDataSource(dataSourceOf(doguinhos))
                 withItem<Doguinho, MainViewHolder>(R.layout.item_doguinhos) {
                     onBind(::MainViewHolder) { _, item ->
                         this.doguinhosNomeTextView.text = capitalize(item.nome)
-                        Picasso.get().load(item.imagem).into(this.doguinhosImageView)
+//                        Picasso.get().load(item.imagem).into(this.doguinhosImageView)
 
                         GlobalScope.launch {
                             if (DogsDatabase.getInstance(mContext).dogsDao().getDoguinho(item.nome) != null) {
                                 if (DogsDatabase.getInstance(mContext).dogsDao().getDoguinho(item.nome)!!.favotiro) {
                                     item.favotiro = true
-                                    GlobalScope.launch(Dispatchers.Main) { favoritarDoguinhoImageView.setImageResource(R.drawable.ic_favorite) }
+                                    GlobalScope.launch(Dispatchers.Main) { favoritarDoguinhoImageView.setImageResource(R.drawable.ic_item_favorite) }
                                 } else {
                                     item.favotiro = false
-                                    GlobalScope.launch(Dispatchers.Main) { favoritarDoguinhoImageView.setImageResource(R.drawable.ic_not_favorite) }
+                                    GlobalScope.launch(Dispatchers.Main) { favoritarDoguinhoImageView.setImageResource(R.drawable.ic_item_not_favorite) }
                                 }
                             } else {
                                 item.favotiro = false
-                                GlobalScope.launch(Dispatchers.Main) { favoritarDoguinhoImageView.setImageResource(R.drawable.ic_not_favorite) }
+                                GlobalScope.launch(Dispatchers.Main) { favoritarDoguinhoImageView.setImageResource(R.drawable.ic_item_not_favorite) }
                             }
                         }
 
@@ -142,11 +143,11 @@ class MainActivity : AppCompatActivity(), MainView {
                     onChildViewClick(MainViewHolder::favoritarDoguinhoImageView) { index, view ->
                         if (doguinhos[index].favotiro) {
                             doguinhos[index].favotiro = false
-                            view.setImageResource(R.drawable.ic_not_favorite)
+                            view.setImageResource(R.drawable.ic_item_not_favorite)
                             GlobalScope.launch { DogsDatabase.getInstance(mContext).dogsDao().delete(doguinhos[index]) }
                         } else {
                             doguinhos[index].favotiro = true
-                            view.setImageResource(R.drawable.ic_favorite)
+                            view.setImageResource(R.drawable.ic_item_favorite)
                             GlobalScope.launch { DogsDatabase.getInstance(mContext).dogsDao().insert(doguinhos[index]) }
                         }
                     }

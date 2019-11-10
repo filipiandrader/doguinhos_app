@@ -2,17 +2,20 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="200dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="6dp"
     app:cardCornerRadius="4dp"
     app:cardElevation="6dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?android:selectableItemBackground"
-        android:paddingBottom="8dp">
+        android:paddingStart="4dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="4dp"
+        android:paddingBottom="12dp">
 
         <ImageView
             android:id="@+id/doguinhosImageView"
@@ -21,6 +24,7 @@
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@mipmap/ic_launcher"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,6 +35,7 @@
             android:layout_height="0.5dp"
             android:layout_marginTop="4dp"
             android:background="@color/colorDivider"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/doguinhosImageView" />
@@ -39,11 +44,10 @@
             android:id="@+id/doguinhosNomeTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="center"
+            android:layout_margin="6dp"
             android:textColor="@color/colorPrimaryText"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/favoritarDoguinhoImageView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/divider1"
             tools:text="Doguinho Raça 1" />
@@ -53,11 +57,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
             android:textColor="@color/colorSecondaryText"
             android:textSize="14sp"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/doguinhosNomeTextView"
             app:layout_constraintTop_toBottomOf="@+id/doguinhosNomeTextView"
             tools:text="Sub-raça: Doguinho Sub Raça 1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
