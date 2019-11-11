@@ -102,7 +102,6 @@ class MainActivity : AppCompatActivity(), MainView {
                 withItem<Doguinho, MainViewHolder>(R.layout.item_doguinhos) {
                     onBind(::MainViewHolder) { _, item ->
                         this.doguinhosNomeTextView.text = capitalize(item.nome)
-//                        Picasso.get().load(item.imagem).into(this.doguinhosImageView)
 
                         GlobalScope.launch {
                             if (DogsDatabase.getInstance(mContext).dogsDao().getDoguinho(item.nome) != null) {

@@ -60,8 +60,7 @@ class FavoritesActivity : AppCompatActivity(), FavoritesView {
                 withLayoutManager(LinearLayoutManager(mContext))
                 withDataSource(dataSourceOf(doguinhos))
                 withItem<Doguinho, FavoritesViewHolder>(R.layout.item_doguinhos_favoritos) {
-                    onBind(::FavoritesViewHolder) { index, item ->
-                        //                        Picasso.get().load(item.imagem).into(this.doguinhosImageView)
+                    onBind(::FavoritesViewHolder) { _, item ->
                         this.doguinhosNomeTextView.text = capitalize(item.nome)
                         when {
                             item.sub_raca.size == 1 -> this.doguinhosSubRacaTextView.text = "Sub-raça: ${capitalize(item.sub_raca[0])}"

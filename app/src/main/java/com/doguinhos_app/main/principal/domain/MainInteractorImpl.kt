@@ -23,8 +23,6 @@ class MainInteractorImpl : MainInteractor, DogAPI() {
                 message.keys().forEach { key ->
                     val doguinho = Doguinho()
                     doguinho.nome = key
-                    /*val resultImage = retrofitService.getImagesByDog(key).await()
-                    doguinho.imagem = JSONObject(resultImage).optJSONArray("message").optString(0)*/
                     val sub_raca = mutableListOf<String>()
                     for (i in 0 until message.optJSONArray(key).length()) {
                         sub_raca.add(message.optJSONArray(key).optString(i))
